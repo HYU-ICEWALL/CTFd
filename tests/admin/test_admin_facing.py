@@ -385,7 +385,7 @@ def test_admin_create_team_with_existing_email():
             data = {
                 'name': 'TunnelBunnies',
                 'password': 'fUnn3lJuNK135',
-                'email': 'admin@ctfd.io',
+                'email': 'admin@hanyang.ac.kr',
                 'website': 'https://scary-hares.trace.us/',
                 'affiliation': 'Energizer',
                 'country': 'USA',
