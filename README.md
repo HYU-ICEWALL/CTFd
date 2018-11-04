@@ -1,7 +1,7 @@
 ![](https://github.com/CTFd/CTFd/blob/master/CTFd/themes/core/static/img/logo.png?raw=true)
 ====
 
-[![Build Status](https://travis-ci.org/CTFd/CTFd.svg?branch=master)](https://travis-ci.org/CTFd/CTFd)
+[![Build Status](https://travis-ci.org/HYU-ICEWALL/CTFd.svg?branch=master)](https://travis-ci.org/HYU-ICEWALL/CTFd)
 [![CTFd Slack](https://slack.ctfd.io/badge.svg)](https://slack.ctfd.io/)
 
 ## What is CTFd?
