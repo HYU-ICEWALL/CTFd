@@ -104,7 +104,7 @@ def test_register_email_as_team_name():
     """A user shouldn't be able to use an email address as a team name"""
     app = create_ctfd()
     with app.app_context():
-        register_user(app, name="user@ctfd.io", email="user@ctfd.io", password="password")
+        register_user(app, name="user@hanyang.ac.kr", email="user@hanyang.ac.kr", password="password")
         team_count = app.db.session.query(app.db.func.count(Teams.id)).first()[0]
         assert team_count == 1  # There's only the admin user
     destroy_ctfd(app)
@@ -114,8 +114,8 @@ def test_register_duplicate_teamname():
     """A user shouldn't be able to use an already registered team name"""
     app = create_ctfd()
     with app.app_context():
-        register_user(app, name="user1", email="user1@ctfd.io", password="password")
-        register_user(app, name="user1", email="user2@ctfd.io", password="password")
+        register_user(app, name="user1", email="user1@hanyang.ac.kr", password="password")
+        register_user(app, name="user1", email="user2@hanyang.ac.kr", password="password")
         team_count = app.db.session.query(app.db.func.count(Teams.id)).first()[0]
         assert team_count == 2  # There's the admin user and the first created user
     destroy_ctfd(app)
@@ -125,8 +125,8 @@ def test_register_duplicate_email():
     """A user shouldn't be able to use an already registered email address"""
     app = create_ctfd()
     with app.app_context():
-        register_user(app, name="user1", email="user1@ctfd.io", password="password")
-        register_user(app, name="user2", email="user1@ctfd.io", password="password")
+        register_user(app, name="user1", email="user1@hanyang.ac.kr", password="password")
+        register_user(app, name="user2", email="user1@hanyang.ac.kr", password="password")
         team_count = app.db.session.query(app.db.func.count(Teams.id)).first()[0]
         assert team_count == 2  # There's the admin user and the first created user
     destroy_ctfd(app)
@@ -160,7 +160,7 @@ def test_user_login_with_email():
     app = create_ctfd()
     with app.app_context():
         register_user(app)
-        client = login_as_user(app, name="user@ctfd.io", password="password")
+        client = login_as_user(app, name="user@hanyang.ac.kr", password="password")
         r = client.get('/profile')
         assert r.location != "http://localhost/login"  # We didn't get redirected to login
         assert r.status_code == 200
@@ -355,7 +355,7 @@ def test_user_set_profile():
         with client.session_transaction() as sess:
             data = {
                 'name': 'user',
-                'email': 'user@ctfd.io',
+                'email': 'user@hanyang.ac.kr',
                 'confirm': '',
                 'password': '',
                 'affiliation': 'affiliation_test',
@@ -403,7 +403,7 @@ def test_user_score_is_correct():
     app = create_ctfd()
     with app.app_context():
         # create user1
-        register_user(app, name="user1", email="user1@ctfd.io")
+        register_user(app, name="user1", email="user1@hanyang.ac.kr")
 
         # create challenge
         chal = gen_challenge(app.db, value=100)
@@ -419,7 +419,7 @@ def test_user_score_is_correct():
         assert user1.place() == '1st'
 
         # create user2
-        register_user(app, name="user2", email="user2@ctfd.io")
+        register_user(app, name="user2", email="user2@hanyang.ac.kr")
 
         # user2 solves the challenge
         gen_solve(app.db, 3, chal_id)
@@ -494,7 +494,7 @@ def test_user_cannot_unlock_hint():
     app = create_ctfd()
     with app.app_context():
         with app.test_client() as client:
-            register_user(app, name="user1", email="user1@ctfd.io")
+            register_user(app, name="user1", email="user1@hanyang.ac.kr")
 
             chal = gen_challenge(app.db, value=100)
             chal_id = chal.id
@@ -521,7 +521,7 @@ def test_user_can_unlock_hint():
     app = create_ctfd()
     with app.app_context():
         with app.test_client() as client:
-            register_user(app, name="user1", email="user1@ctfd.io")
+            register_user(app, name="user1", email="user1@hanyang.ac.kr")
 
             chal = gen_challenge(app.db, value=100)
             chal_id = chal.id
@@ -544,114 +544,6 @@ def test_user_can_unlock_hint():
                 assert resp.get('errors') is None
                 assert resp.get('hint')
                 assert resp.get('chal') == chal_id
-    destroy_ctfd(app)
-
-
-@patch('smtplib.SMTP')
-@freeze_time("2012-01-14 03:21:34")
-def test_user_can_confirm_email(mock_smtp):
-    '''Test that a user is capable of confirming their email address'''
-    app = create_ctfd()
-    with app.app_context():
-        # Set CTFd to only allow confirmed users and send emails
-        set_config('verify_emails', True)
-        set_config('mail_server', 'localhost')
-        set_config('mail_port', 25)
-        set_config('mail_username', 'username')
-        set_config('mail_password', 'password')
-
-        register_user(app, name="user1", email="user@user.com")
-
-        # Teams are not verified by default
-        team = Teams.query.filter_by(email='user@user.com').first()
-        assert team.verified == False
-
-        client = login_as_user(app, name="user1", password="password")
-
-        # smtp.sendmail was called
-        mock_smtp.return_value.sendmail.assert_called()
-
-        with client.session_transaction() as sess:
-            data = {
-                "nonce": sess.get('nonce')
-            }
-            r = client.get('/challenges')
-            assert r.location == "http://localhost/confirm"  # We got redirected to /confirm
-
-            # Use precalculated confirmation secret
-            r = client.get('http://localhost/confirm/InVzZXJAdXNlci5jb20iLkFmS0dQZy5kLUJnVkgwaUhadzFHaXVENHczWTJCVVJwdWc')
-            assert r.location == 'http://localhost/challenges'
-
-            # The team is now verified
-            team = Teams.query.filter_by(email='user@user.com').first()
-            assert team.verified == True
-    destroy_ctfd(app)
-
-
-@patch('smtplib.SMTP')
-@freeze_time("2012-01-14 03:21:34")
-def test_user_can_reset_password(mock_smtp):
-    """Test that a user is capable of resetting their password"""
-    from email.mime.text import MIMEText
-    app = create_ctfd()
-    with app.app_context():
-        # Set CTFd to send emails
-        set_config('mail_server', 'localhost')
-        set_config('mail_port', 25)
-        set_config('mail_username', 'username')
-        set_config('mail_password', 'password')
-
-        # Create a user
-        register_user(app, name="user1", email="user@user.com")
-
-        with app.test_client() as client:
-            r = client.get('/reset_password')
-
-            # Build reset password data
-            with client.session_transaction() as sess:
-                data = {
-                    'nonce': sess.get('nonce'),
-                    'email': 'user@user.com'
-                }
-
-            # Issue the password reset request
-            r = client.post('/reset_password', data=data)
-
-            from_addr = get_config('mailfrom_addr') or app.config.get('MAILFROM_ADDR')
-            to_addr = 'user@user.com'
-
-            # Build the email
-            msg = """Did you initiate a password reset? Click the following link to reset your password:
-
-http://localhost/reset_password/InVzZXIxIi5BZktHUGcuTVhkTmZtOWU2U2xwSXZ1MlFwTjdwa3F5V3hR
-
-"""
-            email_msg = MIMEText(msg)
-            email_msg['Subject'] = "Message from CTFd"
-            email_msg['From'] = from_addr
-            email_msg['To'] = to_addr
-
-            # Make sure that the reset password email is sent
-            mock_smtp.return_value.sendmail.assert_called_with(from_addr, [to_addr], email_msg.as_string())
-
-            # Get user's original password
-            team = Teams.query.filter_by(email="user@user.com").first()
-            team_password_saved = team.password
-
-            # Build the POST data
-            with client.session_transaction() as sess:
-                data = {
-                    'nonce': sess.get('nonce'),
-                    'password': 'passwordtwo'
-                }
-
-            # Do the password reset
-            r = client.get('/reset_password/InVzZXIxIi5BZktHUGcuTVhkTmZtOWU2U2xwSXZ1MlFwTjdwa3F5V3hR')
-            r = client.post('/reset_password/InVzZXIxIi5BZktHUGcuTVhkTmZtOWU2U2xwSXZ1MlFwTjdwa3F5V3hR', data=data)
-
-            # Make sure that the user's password changed
-            team = Teams.query.filter_by(email="user@user.com").first()
-            assert team.password != team_password_saved
     destroy_ctfd(app)
 
 

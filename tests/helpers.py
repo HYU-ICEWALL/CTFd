@@ -15,7 +15,7 @@ else:
     binary_type = bytes
 
 
-def create_ctfd(ctf_name="CTFd", name="admin", email="admin@ctfd.io", password="password", setup=True):
+def create_ctfd(ctf_name="CTFd", name="admin", email="admin@hanyang.ac.kr", password="password", setup=True):
     app = create_app('CTFd.config.TestingConfig')
 
     if setup:
@@ -50,7 +50,7 @@ def destroy_ctfd(app):
     drop_database(app.config['SQLALCHEMY_DATABASE_URI'])
 
 
-def register_user(app, name="user", email="user@ctfd.io", password="password"):
+def register_user(app, name="user", email="user@hanyang.ac.kr", password="password"):
     with app.app_context():
         with app.test_client() as client:
             r = client.get('/register')
@@ -126,7 +126,7 @@ def gen_flag(db, chal, flag='flag', key_type='static', data=None):
     return key
 
 
-def gen_team(db, name='name', email='user@ctfd.io', password='password'):
+def gen_team(db, name='name', email='user@hanyang.ac.kr', password='password'):
     team = Teams(name, email, password)
     db.session.add(team)
     db.session.commit()

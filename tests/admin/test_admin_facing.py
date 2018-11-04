@@ -302,7 +302,7 @@ def test_admins_can_create_teams():
             data = {
                 'name': 'TunnelBunnies',
                 'password': 'fUnn3lJuNK135',
-                'email': 'scary.hares@trace.us',
+                'email': 'scary.hares@hanyang.ac.kr',
                 'website': 'https://scary-hares.trace.us/',
                 'affiliation': 'Energizer',
                 'country': 'USA',
@@ -314,7 +314,7 @@ def test_admins_can_create_teams():
         team = Teams.query.filter_by(id=2).first()
         assert team
         assert team.name == 'TunnelBunnies'
-        assert team.email == 'scary.hares@trace.us'
+        assert team.email == 'scary.hares@hanyang.ac.kr'
         assert team.website == 'https://scary-hares.trace.us/'
         assert team.affiliation == 'Energizer'
         assert team.country == 'USA'
@@ -359,7 +359,7 @@ def test_admin_create_team_with_existing_name():
             data = {
                 'name': 'admin',
                 'password': 'fUnn3lJuNK135',
-                'email': 'scary.hares@trace.us',
+                'email': 'scary.hares@hanyang.ac.kr',
                 'website': 'https://scary-hares.trace.us/',
                 'affiliation': 'Energizer',
                 'country': 'USA',
@@ -411,7 +411,7 @@ def test_admin_create_team_with_invalid_website():
             data = {
                 'name': 'TunnelBunnies',
                 'password': 'fUnn3lJuNK135',
-                'email': 'scary.hares@trace.us',
+                'email': 'scary.hares@hanyang.ac.kr',
                 'website': 'ftp://scary-hares.trace.us/',
                 'affiliation': 'Energizer',
                 'country': 'USA',

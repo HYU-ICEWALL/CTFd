@@ -476,10 +476,10 @@ def test_import_ctf():
 
 def test_check_email_format():
     """Test that the check_email_format() works properly"""
-    assert check_email_format('user@ctfd.io') is True
-    assert check_email_format('user+plus@gmail.com') is True
-    assert check_email_format('user.period1234@gmail.com') is True
-    assert check_email_format('user.period1234@b.c') is True
+    assert check_email_format('user@hanyang.ac.kr') is True
+    assert check_email_format('user+plus@hanyang.ac.kr') is True
+    assert check_email_format('user.period1234@hanyang.ac.kr') is True
+    assert check_email_format('user.period1234@hanyang.ac.kr') is True
     assert check_email_format('user.period1234@b') is False
     assert check_email_format('no.ampersand') is False
     assert check_email_format('user@') is False

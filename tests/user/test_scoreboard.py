@@ -14,8 +14,8 @@ def test_top_10():
     '''Make sure top10 returns correct information'''
     app = create_ctfd()
     with app.app_context():
-        register_user(app, name="user1", email="user1@ctfd.io")
-        register_user(app, name="user2", email="user2@ctfd.io")
+        register_user(app, name="user1", email="user1@hanyang.ac.kr")
+        register_user(app, name="user2", email="user2@hanyang.ac.kr")
 
         chal1 = gen_challenge(app.db)
         flag1 = gen_flag(app.db, chal=chal1.id, flag='flag')
@@ -86,9 +86,9 @@ def test_scoring_logic():
     with app.app_context():
         admin = login_as_user(app, name="admin", password="password")
 
-        register_user(app, name="user1", email="user1@ctfd.io", password="password")
+        register_user(app, name="user1", email="user1@hanyang.ac.kr", password="password")
         client1 = login_as_user(app, name="user1", password="password")
-        register_user(app, name="user2", email="user2@ctfd.io", password="password")
+        register_user(app, name="user2", email="user2@hanyang.ac.kr", password="password")
         client2 = login_as_user(app, name="user2", password="password")
 
         chal1 = gen_challenge(app.db)
@@ -153,9 +153,9 @@ def test_scoring_logic_with_zero_point_challenges():
     with app.app_context():
         admin = login_as_user(app, name="admin", password="password")
 
-        register_user(app, name="user1", email="user1@ctfd.io", password="password")
+        register_user(app, name="user1", email="user1@hanyang.ac.kr", password="password")
         client1 = login_as_user(app, name="user1", password="password")
-        register_user(app, name="user2", email="user2@ctfd.io", password="password")
+        register_user(app, name="user2", email="user2@hanyang.ac.kr", password="password")
         client2 = login_as_user(app, name="user2", password="password")
 
         chal1 = gen_challenge(app.db)

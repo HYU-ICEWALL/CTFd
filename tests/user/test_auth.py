@@ -114,7 +114,7 @@ def test_expired_confirmation_links():
     with app.app_context():
         set_config('verify_emails', True)
 
-        register_user(app, email="user@user.com")
+        register_user(app, email="user@hanyang.ac.kr")
         client = login_as_user(app, name="user", password="password")
 
         # user@user.com "2012-01-14 03:21:34"
@@ -122,7 +122,7 @@ def test_expired_confirmation_links():
         r = client.get(confirm_link)
 
         assert "Your confirmation link has expired" in r.get_data(as_text=True)
-        team = Teams.query.filter_by(email='user@user.com').first()
+        team = Teams.query.filter_by(email='user@hanyang.ac.kr').first()
         assert team.verified is not True
     destroy_ctfd(app)
 
@@ -133,7 +133,7 @@ def test_invalid_confirmation_links():
     with app.app_context():
         set_config('verify_emails', True)
 
-        register_user(app, email="user@user.com")
+        register_user(app, email="user@hanyang.ac.kr")
         client = login_as_user(app, name="user", password="password")
 
         # user@user.com "2012-01-14 03:21:34"
@@ -141,7 +141,7 @@ def test_invalid_confirmation_links():
         r = client.get(confirm_link)
 
         assert "Your confirmation token is invalid" in r.get_data(as_text=True)
-        team = Teams.query.filter_by(email='user@user.com').first()
+        team = Teams.query.filter_by(email='user@hanyang.ac.kr').first()
         assert team.verified is not True
     destroy_ctfd(app)
 
@@ -156,7 +156,7 @@ def test_expired_reset_password_link():
         set_config('mail_username', 'username')
         set_config('mail_password', 'password')
 
-        register_user(app, name="user1", email="user@user.com")
+        register_user(app, name="user1", email="user@hanyang.ac.kr")
 
         with app.test_client() as client:
             # user@user.com "2012-01-14 03:21:34"
@@ -176,7 +176,7 @@ def test_invalid_reset_password_link():
         set_config('mail_username', 'username')
         set_config('mail_password', 'password')
 
-        register_user(app, name="user1", email="user@user.com")
+        register_user(app, name="user1", email="user@hanyang.ac.kr")
 
         with app.test_client() as client:
             # user@user.com "2012-01-14 03:21:34"
@@ -191,7 +191,7 @@ def test_contact_for_password_reset():
     """Test that if there is no mailserver configured, users should contact admins"""
     app = create_ctfd()
     with app.app_context():
-        register_user(app, name="user1", email="user@user.com")
+        register_user(app, name="user1", email="user@hanyang.ac.kr")
 
         with app.test_client() as client:
             forgot_link = 'http://localhost/reset_password'

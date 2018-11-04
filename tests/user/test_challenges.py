@@ -64,7 +64,7 @@ def test_chals_solves():
         # Generate 5 users
         for c in range(1, 6):
             name = "user{}".format(c)
-            email = "user{}@ctfd.io".format(c)
+            email = "user{}@hanyang.ac.kr".format(c)
             register_user(app, name=name, email=email, password="password")
 
         # Generate 5 challenges
