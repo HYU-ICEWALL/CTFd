@@ -702,7 +702,7 @@ def validate_url(url):
 
 
 def check_email_format(email):
-    return bool(re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email))
+    return bool(re.match(r"(^[a-zA-Z0-9_.+-]+@hanyang\.ac\.kr$)", email))
 
 
 def sha512(string):
