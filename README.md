@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/HYU-ICEWALL/CTFd.svg?branch=master)](https://travis-ci.org/HYU-ICEWALL/CTFd)
 
 ## This is CTFd fork for HCTF
-~~~DO NOT commit without @ghatdev, @KooZaN 's permission!~~~
+**DO NOT commit without @ghatdev, @KooZaN 's permission!**
 
 
-## Basic information is at ![Original Repository](https://github.com/CTFd/CTFd).
+## Basic information is at [Original Repository](https://github.com/CTFd/CTFd).
