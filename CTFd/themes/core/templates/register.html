@@ -20,18 +20,18 @@
 				</div>
 			{% endfor %}
 			<div style="text-align: center;">
-				<h4>시상정보를 위해 <a href="http://icewall.hanyang.ac.kr">여기</a>에서 추가정보를 입력해 주세요.<br/></h4><br/>
+				<h4>시상정보를 위해 <a href="https://docs.google.com/forms/d/140jUGsH3bu-lk_D0KNE3wwoJKoTF5UDkscPTSGTaidg">여기</a>에서 추가정보를 입력해 주세요.<br/></h4><br/>
 			</div>
 			<form method="post" accept-charset="utf-8" autocomplete="off" role="form" class="form-horizontal">
 				<div class="form-group">
 					<label for="name-input">
-						Team Name
+						Team Name (본인 이름을 써주세요!)
 					</label>
 					<input class="form-control" type="text" name="name" id="name-input" {% if name %}value="{{ name }}"{% endif %} />
 				</div>
 				<div class="form-group">
 					<label for="email-input">
-						Email
+						Email (한양대학교 이메일만 사용가능합니다!)
 					</label>
 					<input class="form-control" type="text" name="email" id="email-input" {% if email %}value="{{ email }}"{% endif %} />
 				</div>
